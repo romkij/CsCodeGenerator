@@ -13,6 +13,10 @@ namespace CsCodeGenerator
 
         public List<string> UsingDirectives { get; set; } = new List<string>();
 
+        public string FirstLine { get; set; }
+
+        public string LastLine { get; set; }
+
         public string Namespace { get; set; }
 
         public string Name { get; set; }
@@ -29,14 +33,23 @@ namespace CsCodeGenerator
         {
             foreach (var usingDirective in usingDirectives)
             {
+                if (UsingDirectives.Contains(usingDirective))
+                    continue;
                 UsingDirectives.Add(usingDirective);
             }
         }
 
         public override string ToString()
         {
+            string result = string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(FirstLine))
+            {
+                result += FirstLine + Util.NewLine;
+            }
+
             string usingText = UsingDirectives.Count > 0 ? Util.Using + " " : "";
-            string result = usingText + String.Join(Util.NewLine + usingText, UsingDirectives);
+            result += usingText + String.Join(Util.NewLine + usingText, UsingDirectives);
             result += Util.NewLineDouble + Util.Namespace + " " + Namespace;
             result += Util.NewLine + "{";
             result += String.Join(Util.NewLine, Enums);
@@ -44,6 +57,12 @@ namespace CsCodeGenerator
             result += String.Join(Util.NewLine, Classes);
             result += Util.NewLine + "}";
             result += Util.NewLine;
+
+            if (!string.IsNullOrWhiteSpace(LastLine))
+            {
+                result += LastLine + Util.NewLine;
+            }
+
             return result;
         }
     }

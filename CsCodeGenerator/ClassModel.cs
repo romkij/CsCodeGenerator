@@ -49,6 +49,31 @@ namespace CsCodeGenerator
 
         public override string ToString()
         {
+            foreach (var nestedClass in NestedClasses)
+            {
+                nestedClass.NestedIndent++;
+
+                foreach (var field in nestedClass.Fields)
+                {
+                    field.NestedIndent++;
+                }
+
+                foreach (var method in nestedClass.Methods)
+                {
+                    method.NestedIndent++;
+                }
+
+                foreach (var property in nestedClass.Properties)
+                {
+                    property.NestedIndent++;
+                }
+
+                foreach (var constructor in nestedClass.Constructors)
+                {
+                    constructor.NestedIndent++;
+                }
+            }
+
             string result = base.ToString();
             result += (BaseClass != null || Interfaces?.Count > 0) ? $" : " : "";
             result += BaseClass != null ? BaseClass : "";
@@ -70,7 +95,8 @@ namespace CsCodeGenerator
             bool hasPropertiesAndMethods = Properties.Count > 0 && Methods.Count > 0;
             result += hasMembersAfterConstructor ? Util.NewLine : "";
             result += String.Join(Util.NewLine, Methods);
-            
+
+
             result += NestedClasses.Count > 0 ? Util.NewLine : "";
             result += String.Join(Util.NewLine, NestedClasses);
 

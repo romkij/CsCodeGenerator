@@ -19,7 +19,7 @@ namespace CsCodeGenerator
         public virtual string DefaultValue { get; set; }
         protected string DefaultValueFormated => DefaultValue != null ? " = " + DefaultValue : "";
 
-        public override bool HasAttributes => false;
+        //public override bool HasAttributes => false;
 
         protected virtual string Ending { get; } = ";";
 

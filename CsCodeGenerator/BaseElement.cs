@@ -22,7 +22,10 @@ namespace CsCodeGenerator
         }
 
         public virtual int IndentSize { get; set; } = (int)IndentType.Double * CsGenerator.DefaultTabSize;
-        public string Indent => new String(' ', IndentSize);
+
+        public int NestedIndent { get; set; }
+
+        public string Indent => new String(' ', IndentSize + (CsGenerator.DefaultTabSize * NestedIndent));
 
         public virtual string Comment { get; set; }
 
